@@ -1,0 +1,153 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Travel Booking</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            display: flex;
+            flex-direction: row; /* Arrange items in a row */
+            align-items: flex-start; /* Align items to the start of the container */
+        }
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        .image-container {
+            margin-left: 20px; /* Space between the form and image */
+            margin-top: 40px; /* Move the image slightly down */
+        }
+        .image-container img {
+            width: 200px; /* Adjust width as needed */
+            height: auto; /* Maintain aspect ratio */
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        input[type="date"],
+        select,
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        span {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        input[type="submit"] {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        input[type="submit"]:hover {
+            background-color: #12b926;
+        }
+    </style>
+    <script>
+        var prices = {
+            "Bengaluru": {
+                "Mysuru": 500,
+                "Murudeshwara": 1100,
+                "Chikkamagaluru": 1500,
+                "Gokarna": 1850,
+                "Uttara Karnataka Package": 3800
+            },
+            "Mysuru": {
+                "Bengaluru": 500,
+                "Murudeshwara": 850,
+                "Chikkamagaluru": 1108,
+                "Gokarna": 1500,
+                "Uttara Karnataka Package": 3400
+            },
+            // Add more locations and prices as needed
+        };
+
+        function updatePrice() {
+            var from = document.getElementById('from').value;
+            var to = document.getElementById('to').value;
+            var price = prices[from][to] || 0;
+            document.getElementById('price').innerText = price.toFixed(2);
+            document.getElementById('hiddenPrice').value = price.toFixed(2); // Set hidden price field
+            calculateTotal();
+        }
+
+        function calculateTotal() {
+            var price = parseFloat(document.getElementById('price').innerText);
+            var numberOfPersons = parseInt(document.getElementById('numberOfPersons').value) || 0;
+            var totalPrice = price * numberOfPersons;
+            document.getElementById('totalPrice').innerText = totalPrice.toFixed(2);
+            document.getElementById('hiddenTotalPrice').value = totalPrice.toFixed(2); // Set hidden total price field
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+        <div class="image-container">
+            <img src="WhatsApp Image 2024-07-09 at 6.16.48 PM (1).jpeg" alt="QR Code">
+        </div>
+    <h1>BIG BEAST<br>Travel Booking</h1>
+    <form action="confirmation.html" method="get">
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" required><br><br>
+
+        <label for="from">From:</label>
+        <select id="from" name="from" onchange="updatePrice()" required>
+            <option value="Bengaluru">Bengaluru</option>
+            <option value="Mysuru">Mysuru</option>
+            <!-- Add more options as needed -->
+        </select><br><br>
+
+        <label for="to">To:</label>
+        <select id="to" name="to" onchange="updatePrice()" required>
+            <option value="Mysuru">Mysuru</option>
+            <option value="Bengaluru">Bengaluru</option>
+            <option value="Murudeshwara">Murudeshwara</option>
+            <option value="Chikkamagaluru">Chikkamagaluru</option>
+            <option value="Gokarna">Gokarna</option>
+            <option value="Uttara Karnataka Package">Uttara Karnataka Package</option>
+            <!-- Add more options as needed -->
+        </select><br><br>
+        <label for="price">Price:</label>
+        <span id="price">0.00</span><br><br>
+        <input type="hidden" id="hiddenPrice" name="price"> <!-- Hidden field to submit price -->
+
+        <label for="numberOfPersons">Number of Persons:</label>
+        <input type="number" id="numberOfPersons" name="numberOfPersons" min="1" required onchange="calculateTotal()"><br><br>
+
+        <label for="totalPrice">Total Price:</label>
+        <span id="totalPrice">0.00</span><br><br>
+        <input type="hidden" id="hiddenTotalPrice" name="totalPrice"> <!-- Hidden field to submit total price -->
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
